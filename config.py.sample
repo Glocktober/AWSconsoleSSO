@@ -1,0 +1,40 @@
+
+session_config = {
+    'session_backing':{
+    'cache_type': 'FileSystem', 
+    'cache_dir': '/tmp/awscon/.cache'},
+    'session_expire' : 300,
+    'session_cookie' :'consurl'
+}
+
+saml_config = {
+      "comment" : "SAML Integration - Azure AD here",
+      "saml_endpoint": "https://login.microsoftonline.com/<TENENTID>/saml2",
+      "spid": "URN:awsconsoleurl",
+      "issuer": "https://sts.windows.net/<TENENTID>/",
+      "force_reauth" : False,
+      "idp_ok": True,
+      "acs_url" : "http://wsgi.example.com/awscon/saml/acs",
+      "user_attr": "name_id",       # Attribute to match as session username
+      "assertions": ["groups"],     # Assertions added to session as attributes
+      "certificate" : "-----BEGIN CERTIFICATE-----\n YOUR IDPs CERTIFICATE -----END CERTIFICATE-----\n"
+}
+
+aws_config = {
+      "timeout": 200.0,             # Python requests timeout
+      "url_prefix": "/aws",         # Base for URL
+      "targets" : [
+            {
+                  "service": "occadadm",  # /<url_prefix>/<service>
+                  "role": "AWS-Role-Arn",
+                  "duration": 28800,
+                  "groups" : ["sysadmin", "cloudadmin"]
+            },
+            {
+                  "service": "sandbox",
+                  "role": "Different-AWS-RoleARN",
+                  "duration": 28800,
+                  # no groups - anyone that can auth has access
+            } 
+      ]
+}

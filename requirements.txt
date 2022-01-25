@@ -1,0 +1,6 @@
+boto3==1.20.38
+bottle==0.12.19
+BottleAuth==21.9.7
+BottleSaml==21.9.21
+BottleSessions==21.9.21
+requests==2.27.1

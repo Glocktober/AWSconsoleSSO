@@ -1,0 +1,14 @@
+venv
+.vscode
+__pycache__
+.aws
+pack
+dist
+config.py
+*.egg-info
+.cache_dir
+*.pem
+*.REST
+bapp.py
+test_encoder.py
+.cache
