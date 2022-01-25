@@ -23,6 +23,8 @@ saml_config = {
 aws_config = {
       "timeout": 200.0,             # Python requests timeout
       "url_prefix": "/aws",         # Base for URL
+      "aws_profile_name" : "cons",  # Profile name     
+      "aws_credentials_file" : "/usr/local/.aws/credentials",     # Credentials file 
       "targets" : [
             {
                   "service": "occadadm",  # /<url_prefix>/<service>
