@@ -180,7 +180,7 @@ class AWScons:
         # Check requestor for membership in authorized groups
         groups_pass = False
         if contxt.groups:
-            memberships = request.session['attributes']['groups']
+            memberships = request.session['attributes'].get('groups',[])
 
             for group in memberships:
                 if group in contxt.groups:
