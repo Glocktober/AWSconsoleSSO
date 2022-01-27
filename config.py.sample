@@ -8,12 +8,10 @@ session_config = {
 }
 
 saml_config = {
-      "comment" : "SAML Integration - Azure AD here",
+      # This is a sample SAML SP configuration for Azure AD (use your own tenentid, certificate, etc.)
       "saml_endpoint": "https://login.microsoftonline.com/<TENENTID>/saml2",
       "spid": "URN:awsconsoleurl",
       "issuer": "https://sts.windows.net/<TENENTID>/",
-      "force_reauth" : False,
-      "idp_ok": True,
       "acs_url" : "http://wsgi.example.com/awscon/saml/acs",
       "user_attr": "name_id",       # Attribute to match as session username
       "assertions": ["groups"],     # Assertions added to session as attributes
@@ -21,21 +19,20 @@ saml_config = {
 }
 
 aws_config = {
-      "timeout": 200.0,             # Python requests timeout
-      "url_prefix": "/aws",         # Base for URL
-      "aws_profile_name" : "cons",  # Profile name     
-      "aws_credentials_file" : "/usr/local/.aws/credentials",     # Credentials file 
+      "url_prefix": "/aws",                                       # Base for URL prefix to use
+      "aws_profile_name" : "cons",                                # Profile in credentials file to use    
+      "aws_credentials_file" : "/usr/local/.aws/credentials",     # Credentials file (protect the file) 
       "targets" : [
             {
-                  "service": "occadadm",  # /<url_prefix>/<service>
-                  "role": "AWS-Role-Arn",
-                  "duration": 28800,
-                  "groups" : ["sysadmin", "cloudadmin"]
+                  "service": "sadmin",                                  # www.example.com/aws/sadmin
+                  "role": "arn:aws:iam::123456789012:role/MyAdminRole", # defined role to assume 
+                  "duration": 28800,                                    # 8 hour session
+                  "groups" : ["sysadmin", "cloudadmin"]                 # must be a member of sysadmin or cloud admin
             },
             {
-                  "service": "sandbox",
-                  "role": "Different-AWS-RoleARN",
-                  "duration": 28800,
+                  "service": "sandbox",                                 # www.example.com/aws/sandbox
+                  "role": "arn:aws:iam::999999789012:role/DBAdmin",     # different account and role
+                  "duration": 14400,                                    # 4 hour session
                   # no groups - anyone that can auth has access
             } 
       ]
