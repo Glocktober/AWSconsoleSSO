@@ -56,7 +56,7 @@ class AWScons:
         self.log = log
         if not self.log: self.log = Log()
 
-        url_prefix = aws_config.get('url_prefix', '/aws')
+        url_prefix = aws_config.get('url_prefix', '')
         route_url = url_prefix + '/<service_name>'
 
         aws_credentials_path = aws_config.get('aws_credentials_file')

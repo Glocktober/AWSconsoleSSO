@@ -1,11 +1,11 @@
 # AWScon - AWS Console SSO Access Manager
 
-AWScon provides Single Sign On (SSO) users to specific AWS console access restricted by AWS IAM roles.
+AWScon provides Single Sign On (SSO) users with AWS console access restricted by AWS IAM roles.  Single Sign On is provided by SAML2, and role access is restricted by group membership.
 
 
 ## Deployment Options
 
-* `AWScon` has been deployed with Apache and mod_wsgi.
+* `AWScon` has been deployed with **Apache** and **mod_wsgi**.
 * The SAML IdP used for Single Sign On (SSO) is Microsoft Azure AD
 
 * This should be usable with any WSGI compliant web server environment and any SAML2 compatibile IdP.
@@ -19,7 +19,7 @@ AWScon provides Single Sign On (SSO) users to specific AWS console access restri
 ```
 
 * This will install the `AWScon` app and it's required components.
-* Generally you will want to deploy into a venv virtual environment.
+* Generally you will want to deploy into a *venv* virtual environment.
 * You still need to integrate the Python code into your WSGI web application service
 
 ## Setup AWS IAM user and roles
@@ -136,7 +136,7 @@ A target configuration item contains specific information for a given service.
 * `groups` is a list of groups restricting access to this role
 * The specific `service` is invoked when the final component of the url path matches the `service` name.  i.e. https://www.example.com/aws/myadmin' matches the service target with the name 'myadmin' (but only when the instance has the url_prefix of '/aws') 
 
-#### Example: A Basic aws_config Stanza:
+#### Example 1: A Basic aws_config Stanza:
 ``` python
 aws_config = {
       "targets" : [{
@@ -148,7 +148,7 @@ aws_config = {
 Accessing https://www.example.com/awsadm will launch an AWS console to any authenticated user. The console will have access of the `MyAdminRole` role in account `123456789012`. The console and credentials will be valid for 1 hour.
 
 
-#### Examle: A More Complex aws_config Stanza:
+#### Example 2: A More Complex aws_config Stanza:
 ``` python
 aws_config = {
       "url_prefix": "/aws",         # Base for URL
