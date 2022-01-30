@@ -1,11 +1,11 @@
-# AWScon - AWS Console SSO Access Manager
+# AWScons - AWS Console SSO Access Manager
 
 AWScon provides Single Sign On (SSO) users with AWS console access restricted by AWS IAM roles.  Single Sign On is provided by SAML2, and role access is restricted by group membership.
 
 
 ## Deployment Options
 
-* `AWScon` has been deployed with **Apache** and **mod_wsgi**.
+* `AWScons` has been deployed with **Apache** and **mod_wsgi**.
 * The SAML IdP used for Single Sign On (SSO) is Microsoft Azure AD
 
 * This should be usable with any WSGI compliant web server environment and any SAML2 compatibile IdP.
@@ -15,10 +15,10 @@ AWScon provides Single Sign On (SSO) users with AWS console access restricted by
 ## Installation of Python Components
 
 ```bash
- # pip install AWScon
+ # pip install AWScons
 ```
 
-* This will install the `AWScon` app and it's required components.
+* This will install the `AWScons` app and it's required components.
 * Generally you will want to deploy into a *venv* virtual environment.
 * You still need to integrate the Python code into your WSGI web application service
 
@@ -43,9 +43,9 @@ The key is that the created roles must have trusted access to the account that w
 
 ### Create An AWS Policy to Assume the Created Roles
 
-Create a policy with sts:AssumeRole access to the ARNs for the assumed roles created in the previous step.  This is done in the account that was granted the trust to assume any of the roles you created.
+Create a policy with `sts:AssumeRole` API access to the ARNs for the assumed roles created in the previous step.  This is done in the account that was granted the trust to assume any of the roles you created.
 
-In our example this was account 123456789012. So in account 123456789012 you would create a policy - we'll call it `AWSconAssume`:
+In our example this was account 123456789012. So in account 123456789012 you would create a policy - we'll call it `assumeSSOpolicy`:
 ``` json
  {
     "Version": "2012-10-17",
@@ -67,24 +67,24 @@ In our example this was account 123456789012. So in account 123456789012 you wou
 ### Create a User or Role with this Policy
 
 Apply the policy in one of two ways:
-* Attach the policy to an EC2 IAM Role and attach to the EC2 instance `awscon` is hosted.
+* Attach the policy to an EC2 IAM Role and attach to the EC2 instance `AWScons` is hosted.
 * Attach the policy directly to an IAM user account.
 
 For EC2:
-* In IAM create a new role, for EC2, and attach the policy (`AWSconAssume` in our example) to this role.
+* In IAM create a new role, for EC2, and attach the policy (`assumeSSOpolicy` in our example) to this role.
 * Attache this role to the EC2 instance the code will be running on.
 
 For IAM user:
 * Create an IAM user (say `AWSconSSO`) with only API keys and save the keys
-* Apply the policy (`AWSconAssume` in our example) to this user
+* Apply the policy (`assumeSSOpolicy` in our example) to this user
 * On the hosting sever create a credentials file containing the API keys
 * Use the config options `aws_credentials_file` and `aws_profile` in the aws_config stanza of config.py
 
-The EC2 Role is the preferred method when `awscon` is hosted in AWS; the IAM User account is required if `awscon` is not being hosted in AWS.
+The EC2 Role is the preferred method when `AWScons` is hosted in AWS; the IAM User account is required if `AWScons` is not being hosted in AWS, or hosted with outher API applications.
 
 ## Create the config.py Configuration File
 
-An example file is provided `config.py.sample'. You can use this file as a framework to create a config.py file that will be located in the same directory as the `AWScon` app.py file.
+An example file is provided `config.py.sample'. You can use this file as a framework to create a config.py file that will be located in the same directory as the `AWScons` app.py file.
 
 
 There are three sections in the config.py file:
@@ -184,8 +184,8 @@ With https://www.example.com/aws/sandbox, the authenticated user must be a membe
  * The user is a member of at least one group specified in the `groups` of the target configuration. 
  * If no groups are listed in the target config, the user is not rejected.
  * Failing to meet this, the request fails with an HTML 403 Unauthorized error
-* `AWScon` acquires temporary credentials for `role` specified in the target config using the AWS sts:AssumeRole API
-* `AWScon` then calls AWS sts to generate a console login token
+* `AWScons` acquires temporary credentials for `role` specified in the target config using the AWS sts:AssumeRole API
+* `AWScons` then calls AWS sts to generate a console login token
 * The login token is formed to a logon URL
 * The login URL is returned as an HTML 301 redirect 
 
