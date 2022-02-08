@@ -5,23 +5,34 @@ AWScon provides Single Sign On (SSO) users with AWS console access restricted by
 
 ## Deployment Options
 
-* `AWScons` has been deployed with **Apache** and **mod_wsgi**.
+* `AWScons` has been developed ant tested with **Apache** and **mod_wsgi**.
 * The SAML IdP used for Single Sign On (SSO) is Microsoft Azure AD
 
-* This should be usable with any WSGI compliant web server environment and any SAML2 compatibile IdP.
+* **However** `AWScons` should be usable with any WSGI compliant web server environment and any SAML2 compatible IdP.
 
-* You will need have the requisite skills for your web server and IdP to deploy this app, as it is impossible to cover and test all the variations.
+* You will need have the requisite skills for your web server and IdP to deploy this app, as it is impossible to cover and test all the variations, or to document them here.
 
 ## Installation of Python Components
 
 ```bash
- # pip install AWScons
+ % git clone https://github.com/Glocktober/AWSconsoleSSO.git
+ % cd AWSconsoleSSO
+ % python3 -m venv
+ % source venv/bin/activate
+ % pip install -r requirements.txt
+ % # Create config.py
+ % # start for test on <hostname>:8000/
+ % python3 app.py
 ```
 
 * This will install the `AWScons` app and it's required components.
 * Generally you will want to deploy into a *venv* virtual environment.
-* You still need to integrate the Python code into your WSGI web application service
-
+* You still need to integrate the Python code into your WSGI web application service and your SAML IdP.
+* Python components:
+ * [Bottle](http://bottlepy.org/docs/dev/) WSGI web application server
+ * [BottleSaml](https://github.com/Glocktober/BottleSaml) SAML2 Service Provider for Bottle using [minisaml](https://github.com/HENNGE/minisaml)
+ * [BottleSessions](https://github.com/Glocktober/BottleSessions) provides session state management for Bottle using the *Pallets Project* [cachelib](https://pypi.org/project/cachelib/)
+ * Additional more common component packages such as *requests*, *cryptography*,  and *boto3*
 ## Setup AWS IAM user and roles
 
 ### Create one or more AWS Assumed Roles
